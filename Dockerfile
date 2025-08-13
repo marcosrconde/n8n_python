@@ -1,17 +1,18 @@
 FROM n8nio/n8n:latest
 
-# Troca para root para instalar pacotes
 USER root
 
-# Instala Python e dependências para Playwright
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv \
-    && pip3 install --no-cache-dir playwright \
-    && playwright install --with-deps chromium
+# Atualiza e instala Python + pip no Alpine
+RUN apk add --no-cache python3 py3-pip python3-dev build-base
 
-# Cria diretório para scripts
+# Instala venv
+RUN python3 -m ensurepip
+RUN pip3 install --upgrade pip
+
+# Instala Playwright
+RUN pip3 install playwright
+RUN playwright install --with-deps chromium
+
 RUN mkdir -p /scripts
 COPY baixar_pdf.py /scripts/baixar_pdf.py
 RUN chmod +x /scripts/baixar_pdf.py
-
-# Retorna para o usuário padrão do n8n
-USER node
