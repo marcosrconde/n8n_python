@@ -2,9 +2,9 @@ FROM n8nio/n8n:latest
 
 USER root
 
-RUN apk add --no-cache python3 py3-pip python3-venv build-base
+RUN apk add --no-cache python3 py3-pip build-base
 
-# Cria venv e instala o Playwright lá dentro
+# Cria venv e ativa via ENV PATH
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
